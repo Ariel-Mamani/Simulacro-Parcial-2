@@ -17,6 +17,7 @@ class Moto{
         $this-> activa=$activa;
         
     }
+    // GETTERS Y SETTERS 
     public function getCodigo(){
         return $this->codigo;
     }
@@ -60,16 +61,19 @@ class Moto{
                " -Año de fabricacion: ".$this->getAnio()."\n".
                " -Descripcion: ".$this->getDescripcion()."\n".
                " -Porcentaje de incremento anual: ".$this->getPorcentaje()."\n".
-               " -Activa: ".$this->getActiva();
+               " -Activa: ".($this->getActiva() ? "SI" : "NO");
     }
     // Calcula el precio de venta de una moto
     
     public function darPrecioVenta(){
         $disponible = $this->getActiva();
+        $anioFabricacion = $this->getAnio();
+        $anioActual= intval(date("Y"));         //con date obtengo el año actual y con intval lo convierto en un entero
+        $anio = $anioActual - $anioFabricacion ; //cantidad de años transcurridos desde que se fabricó  la moto
+        $costo = $this->getCosto();
+        $porcentaje = $this->getPorcentaje();
         if($disponible){
-        $anio=2024-$this->getAnio();
-        $porcentaje=$this->getPorcentaje()/100;
-            $precioVenta=$this->getCosto() + ($this->getCosto()*($anio * $porcentaje));
+        $precioVenta = $this->getCosto() + ($costo*($anio * $porcentaje));
         }else{
             $precioVenta=-1;
         }

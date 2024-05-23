@@ -15,6 +15,7 @@ class Empresa{
         $this-> colMotos=$colMotos;
         $this-> colVentas=$colVentas;
     }
+    //GETTERS Y SETTERS
     public function getDenominacion(){
         return $this->denominacion;
     }
@@ -64,14 +65,12 @@ class Empresa{
 
     // ESTO SOLO LA BUSCA LA MOTO Y LA GUARDA PARA RETORNARLAAA
     public function retornarMoto($codigoMoto){
-        $colMotos=$this->getMotos();
-        $laMoto=null;
-        $motoEncontrada=false;
-        $i=0;
-        while($i<count($colMotos)  && !$motoEncontrada){
-            if($colMotos[$i]->getCodigo()==$codigoMoto){
-                $laMoto=$colMotos[$i];
-                $motoEncontrada=true;
+        $colMotos = $this->getMotos();
+        $laMoto = null;
+        $i = 0;
+        while($i<count($colMotos)  && $laMoto==null){
+            if($colMotos[$i]->getCodigo() == $codigoMoto){
+                $laMoto = $colMotos[$i];
             }
             $i++;
         }
@@ -79,16 +78,17 @@ class Empresa{
     }
     //REGISTRA VENTAS DE MOTO
     public function registrarVenta($colCodigos,$objCliente){
-        $precioFinal=0;
-        $arrayMotos=[];
-        $numVenta=count($this->getVentas());
-        $colVentas=$this->getVentas();
-        $fecha=date("Y");
-        $nuevaVenta= new Venta($numVenta+1,$fecha,$objCliente,$arrayMotos,0);
+        $precioFinal = 0;
+        $arrayMotos = [];
+        $numVenta = count($this->getVentas());
+        $colVentas = $this->getVentas();
+        $fecha = date("Y-m-d");
+        $preciFinal = 0;
+        $nuevaVenta = new Venta($numVenta+1,$fecha,$objCliente,$arrayMotos,$preciFinal);
         if($objCliente->getEstado()!=true){
             for($i=0;$i<count($colCodigos);$i++){
-                $objMoto=$this->retornarMoto($colCodigos[$i]);
-                if($objMoto!=null){ //TRADUCCION: si se encontro alguna moto con el codigo
+                $objMoto = $this->retornarMoto($colCodigos[$i]);
+                if($objMoto != null){ //TRADUCCION: si se encontro alguna moto con el codigo
                     $nuevaVenta->incorporarMoto($objMoto);
                     
                 }
@@ -96,7 +96,7 @@ class Empresa{
             if($nuevaVenta->getMotos()>0){ //TRADUCCION:si la coleccion de motos del $objVenta vendi motos
                 array_push($colVentas,$nuevaVenta);
                 $this->setVentas($colVentas);
-                $precioFinal=$nuevaVenta->getPrecioFinal();
+                $precioFinal = $nuevaVenta->getPrecioFinal();
             }
         }else{
             $precioFinal=-1;
@@ -111,7 +111,7 @@ class Empresa{
         $colVentas=$this->getVentas();
         foreach($colVentas as $venta){
             if($venta->getCliente()->getDni()==$numDoc && $venta->getCliente()->getTipoDoc()==$tipo){
-                    array_push($ventasACliente,$venta);
+                array_push($ventasACliente,$venta);
             }
         }
         return $ventasACliente;

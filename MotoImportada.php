@@ -12,6 +12,7 @@ class MotoImportada extends Moto{
         $this->paisOrigen = $paisOrigen;
         $this->importeImpuetos = $importeImpuetos;
     }
+    // GETTERS Y SETTERS
     public function getPaisOrigen(){
         return $this->paisOrigen;
     }   
@@ -26,22 +27,22 @@ class MotoImportada extends Moto{
     }
     public function __toString()
     {
-        $cadena= parent::__toString();
-        $cadena.= $this->getPaisOrigen(); 
-        $cadena.= $this->getImpuesto(); 
+        $cadena= parent::__toString()."\n";
+        $cadena.="Pais de Origen: ". $this->getPaisOrigen()."\n"; 
+        $cadena.="Impuesto: ".$this->getImpuesto()."\n"; 
         return $cadena;
     }
+
     /* Para  el  caso  de  las  motos  importadas,  al  valor  calculado  
     se  debe  sumar  el impuesto  que  pagó  la  empresa  por  su  importación.  
     A  continuación  se  describe  el  método  darPrecioVenta  con  el objetivo  de  
     tener  presente  su  implementación  y  realizar  las  modificaciones  que  crea  
     necesarias  para  dar  soporte  al nuevo requerimiento. */
     public function darPrecioVenta(){
-        $precio = parent::darPrecioVenta();
-        $precioVenta = $precio;
-        if($precio != -1){
-            $impuesto = $this->getImpuesto()/100;
-            $precioVenta = $precio + ($precio * $impuesto);
+        $precioVenta = parent::darPrecioVenta();
+        if($precioVenta != -1){
+            $impuesto = $this->getImpuesto();
+            $precioVenta += $impuesto;
         }
         return $precioVenta;
     }

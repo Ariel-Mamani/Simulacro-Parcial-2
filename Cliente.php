@@ -15,6 +15,7 @@ class Cliente{
         $this-> dni=$dni;
         
     }
+    //GETTER Y SETTERS
     public function getNombre(){
         return $this->nombre;
     }
@@ -49,7 +50,7 @@ class Cliente{
     {
         return "\n *Nombre: ".$this->getNombre()."\n".
                " *Apellido: ".$this->getApellido()."\n".
-               " *Estado: ".$this->getEstado()."\n".
+               " *Estado: ".($this->getEstado() ? "SI":"NO")."\n". //operador ternario Ejemplo:  (condition) ? (true_expression) : (false_expression);
                " *Tipo documento: ".$this->getTipoDoc()."\n".
                " *DNI: ".$this->getDni();
     }

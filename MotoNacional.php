@@ -2,23 +2,24 @@
 class MotoNacional extends Moto{
     private $porcentajeDescuento;
 
-    public function __construct($codigo,$costo,$anio,$descripcion,$porcentaje,$activa)
+    public function __construct($codigo,$costo,$anio,$descripcion,$porcentaje,$activa,$descuento)
     {
         parent:: __construct($codigo,$costo,$anio,$descripcion,$porcentaje,$activa);
-        $this->porcentajeDescuento = 15;
+        $this->porcentajeDescuento = $descuento ?? 15; //si $descuento no tiene ningun valor se va a utilizar el 15
     }
 
+    // GETTERS Y SETTERS
     public function getDescuento(){
         return $this->porcentajeDescuento;
     }
     public function setDescuento($porcentaje){
         $this->porcentajeDescuento = $porcentaje;
     }
-
+    // toString
     public function __toString()
     {
-        $cadena = parent::__toString();
-        $cadena.= $this->getDescuento();
+        $cadena = parent::__toString()."\n";
+        $cadena.= "-Descuento: ".$this->getDescuento()."\n";
         return $cadena;
     }
 
@@ -27,11 +28,10 @@ class MotoNacional extends Moto{
     nacionales  aplique  el  porcentaje  de  descuento sobre  el  valor  calculado  
     inicialmente */
     public function darPrecioVenta(){
-        $precio = parent::darPrecioVenta();
-        $precioVenta = $precio;
-        if($precio != -1){
-            $porcentajeDescuento = $this->getDescuento()/100;
-            $precioVenta = $precio - ($precio * $porcentajeDescuento);
+        $precioVenta = parent::darPrecioVenta();
+        if($precioVenta != -1){
+            $porcentajeDescuento = $precioVenta * ($this->getDescuento()/100);
+            $precioVenta = $precioVenta -  $porcentajeDescuento;
         }
         return $precioVenta;
     }
